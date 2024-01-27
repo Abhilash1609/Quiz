@@ -2,64 +2,12 @@
 <html>
 <head>
     <title>HTML and CSS Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-
-        #quiz-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        #question {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        #options label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        #submit-button {
-            display: block;
-            margin: 20px auto;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #results {
-            text-align: center;
-            display: none;
-        }
-
-        #timer {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 16px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <div id="quiz-container">
         <h1>HTML and CSS Quiz</h1>
-        <div id="timer">Time left: <span id="time-left">30</span> seconds</div>
+        <div id="timer">Time Left: <span id="time-left">30</span> seconds</div>
         <div id="question">
             <!-- Question will be displayed here -->
         </div>
@@ -74,113 +22,6 @@
         <ul id="result-list"></ul>
     </div>
 
-    <script>
-        const questions = [
-            {
-                question: "What does HTML stand for?",
-                options: ["Hypertext Markup Language", "Hyperlink and Text Markup Language", "High-Level Text Markup Language", "Home Tool Markup Language"],
-                correctAnswer: "Hypertext Markup Language",
-                timeTaken: 0
-            },
-            {
-                question: "What does CSS stand for?",
-                options: ["Cascading Style Sheet", "Creative Style Sheet", "Computer Style Sheet", "Colorful Style Sheet"],
-                correctAnswer: "Cascading Style Sheet",
-                timeTaken: 0
-            },
-            // Add more questions here
-        ];
-
-        let currentQuestionIndex = 0;
-        let startTime;
-        let timerInterval;
-        const questionElement = document.getElementById("question");
-        const optionsElement = document.getElementById("options");
-        const submitButton = document.getElementById("submit-button");
-        const resultList = document.getElementById("result-list");
-        const resultsContainer = document.getElementById("results");
-        const timeLeftElement = document.getElementById("time-left");
-
-        function displayQuestion() {
-            const currentQuestion = questions[currentQuestionIndex];
-            questionElement.textContent = currentQuestion.question;
-
-            optionsElement.innerHTML = "";
-            currentQuestion.options.forEach((option, index) => {
-                const radioInput = document.createElement("input");
-                radioInput.type = "radio";
-                radioInput.name = "answer";
-                radioInput.value = option;
-                radioInput.id = "option" + index;
-
-                const label = document.createElement("label");
-                label.htmlFor = "option" + index;
-                label.textContent = option;
-
-                optionsElement.appendChild(radioInput);
-                optionsElement.appendChild(label);
-            });
-
-            startTime = new Date().getTime();
-            startTimer();
-        }
-
-        function startTimer() {
-            let timeLeft = 30;
-            timeLeftElement.textContent = timeLeft;
-
-            timerInterval = setInterval(() => {
-                timeLeftElement.textContent = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    questions[currentQuestionIndex].selectedAnswer = "Timeout";
-                    nextQuestion();
-                }
-                timeLeft--;
-            }, 1000);
-        }
-
-        function showResults() {
-            resultsContainer.style.display = "block";
-            questionElement.style.display = "none";
-            optionsElement.style.display = "none";
-            submitButton.style.display = "none";
-
-            questions.forEach((question, index) => {
-                const listItem = document.createElement("li");
-                if (question.selectedAnswer === question.correctAnswer) {
-                    listItem.textContent = `Question ${index + 1}: Correct - Time taken: ${question.timeTaken} seconds`;
-                } else if (question.selectedAnswer === "Timeout") {
-                    listItem.textContent = `Question ${index + 1}: Timeout - Time taken: ${question.timeTaken} seconds`;
-                } else {
-                    listItem.textContent = `Question ${index + 1}: Incorrect - Time taken: ${question.timeTaken} seconds`;
-                }
-                resultList.appendChild(listItem);
-            });
-        }
-
-        function nextQuestion() {
-            clearInterval(timerInterval);
-            const selectedOption = document.querySelector('input[name="answer"]:checked');
-            if (selectedOption || questions[currentQuestionIndex].selectedAnswer === "Timeout") {
-                if (selectedOption) {
-                    questions[currentQuestionIndex].selectedAnswer = selectedOption.value;
-                }
-                questions[currentQuestionIndex].timeTaken = (new Date().getTime() - startTime) / 1000;
-                currentQuestionIndex++;
-                if (currentQuestionIndex < questions.length) {
-                    displayQuestion();
-                } else {
-                    showResults();
-                }
-            } else {
-                alert("Please select an answer before moving to the next question.");
-            }
-        }
-
-        displayQuestion();
-
-        submitButton.addEventListener("click", nextQuestion);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
